@@ -3,14 +3,10 @@
 
 wait_random = __import__('0-basic_async_syntax').wait_random
 import asyncio
-import random
 from typing import List
 
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
     """Runs the wait_random coroutine ntimes"""
-    wait_times = []
-    for x in range(n):
-        delay = await wait_random(max_delay)
-        wait_times.append(delay)
+    wait_times = await asyncio.gather(*(wait_random(max_delay) for i in range(n)))
     return wait_times
